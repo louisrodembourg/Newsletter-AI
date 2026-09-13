@@ -53,10 +53,22 @@ donner envie d'ouvrir sans surpromettre.
 L'appel `send_message` échoue avec `Insufficient scope` — il manque le scope
 `gmail.send` (ou `gmail.compose` / `gmail.modify`).
 
-**Pour débloquer l'envoi :** claude.ai → Réglages → Connecteurs → Gmail →
-reconnecter en acceptant la permission d'**envoi** de messages. Aucune
-modification de ce dépôt n'est nécessaire ensuite : la routine retente l'email
-à chaque exécution et bascule dessus automatiquement dès qu'il passe.
+**Deux actions sont nécessaires pour activer l'email**, et une seule ne suffit
+pas :
+
+1. **Accorder la permission d'envoi.** claude.ai → Réglages → Connecteurs →
+   Gmail → reconnecter en acceptant la permission d'**envoi** de messages.
+
+2. **Attacher le connecteur à la routine.** La routine
+   `Signal IA — newsletter quotidienne 09h00` (`trig_01LRYDtrATKzYzWqXrNptHrj`)
+   a été créée sans connecteur : l'API refuse de les attacher depuis cette
+   organisation. Ses sessions n'ont donc aucun outil `mcp__Gmail__*`, même une
+   fois le point 1 réglé. Il faut lui attacher Gmail depuis l'interface
+   **Routines de claude.ai**, ou recréer la routine depuis cette interface.
+
+Aucune modification de ce dépôt n'est nécessaire : la routine retente l'email à
+chaque exécution et bascule dessus automatiquement dès que les deux points sont
+réglés.
 
 ## Livraison en cascade
 

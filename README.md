@@ -51,7 +51,15 @@ editions/
    chiffre, traitement explicite des contradictions. Un fait non corroboré
    n'entre pas dans l'édition.
 5. Elle rédige l'édition en Markdown et l'archive dans `editions/`.
-6. `scripts/render_email.py` produit le HTML, envoyé via Gmail.
+6. `scripts/render_email.py` produit le HTML, diffusé en cascade : email
+   Gmail, sinon artifact privé, sinon notification push.
+
+**Routine active :** `Signal IA — newsletter quotidienne 09h00`
+(`trig_01LRYDtrATKzYzWqXrNptHrj`), cron `0 7 * * *` UTC, 7j/7.
+
+**État de l'email :** en attente de deux autorisations — voir
+[`config/delivery.md`](config/delivery.md). En attendant, l'édition est livrée
+par artifact privé et notification push, et toujours archivée dans le dépôt.
 
 ## Contrainte d'environnement importante
 
