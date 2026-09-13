@@ -64,8 +64,8 @@ editions/
 6. `scripts/render_email.py` produit le HTML, diffusé en cascade : email
    Gmail, sinon artifact privé, sinon notification push.
 
-**Routine active :** `Signal IA — newsletter quotidienne 09h00`
-(`trig_01LRYDtrATKzYzWqXrNptHrj`), cron `0 7 * * *` UTC, 7j/7.
+**Routine active :** `Signal IA — newsletter quotidienne 08h30`
+(`trig_01LRYDtrATKzYzWqXrNptHrj`), cron `29 6 * * *` UTC, 7j/7 — arrive à 08h29 heure de Paris.
 
 **État de l'email :** en attente de deux autorisations — voir
 [`config/delivery.md`](config/delivery.md). En attendant, l'édition est livrée

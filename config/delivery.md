@@ -13,28 +13,42 @@ destinataire, modifier ce fichier — pas le prompt.
 ## Horaire
 
 ```
-heure locale : 09h00 (Europe/Paris)
-cron UTC     : 0 7 * * *
+heure locale : 08h30 (Europe/Paris) — arrive à 08h29, voir ci-dessous
+cron UTC     : 29 6 * * *
 fréquence    : tous les jours (7j/7)
 ```
 
 ⚠️ **Le cron est évalué en UTC, pas en heure locale.** Paris est à UTC+2 en
-été (CEST) et UTC+1 en hiver (CET). Le cron ci-dessus vise 09h00 locale en
+été (CEST) et UTC+1 en hiver (CET). Le cron ci-dessus vise 08h30 locale en
 *heure d'été*.
 
-Choisir 09h00 donne à la collecte une couverture large : toute la nuit
-américaine, plus les annonces asiatiques du matin — ce qui sert directement
-la place donnée à la Chine dans la ligne éditoriale.
+### Pourquoi 29 et pas 30
+
+Le planificateur applique un décalage d'étalement de charge (~8 min 24 s) aux
+crons tombant sur une **minute ronde** — 0 ou 30. Mesuré le 13/09/2026 :
+
+| Cron | Déclenchement réel |
+|------|--------------------|
+| `0 7 * * *` | 07h08:24 ❌ |
+| `30 6 * * *` | 06h38:24 ❌ |
+| `22 6 * * *` | 06h22:00 ✅ |
+| `29 6 * * *` | 06h29:00 ✅ |
+
+Toute minute non ronde se déclenche à la seconde près. On vise donc 08h29
+locale plutôt que 08h30 : une minute d'écart, contre huit en réglant sur 30.
+
+**Ne jamais repasser ce cron sur `30` ou `0`** en croyant corriger l'horaire —
+ce serait le dégrader.
 
 **Conséquence à connaître :** au passage à l'heure d'hiver (dernier dimanche
-d'octobre 2026, soit le **25 octobre**), l'édition arrivera à 08h00 locale au
-lieu de 09h00. Pour rétablir, passer le cron à `0 8 * * *`. Inversement au
-retour de l'heure d'été (dernier dimanche de mars), revenir à `0 7 * * *`.
+d'octobre 2026, soit le **25 octobre**), l'édition arrivera à 07h29 locale au
+lieu de 08h29. Pour rétablir, passer le cron à `29 7 * * *`. Inversement au
+retour de l'heure d'été (dernier dimanche de mars), revenir à `29 6 * * *`.
 
 | Période | Heure locale visée | Cron UTC |
 |---------|--------------------|----------|
-| Heure d'été (fin mars → fin octobre) | 09h00 CEST | `0 7 * * *` |
-| Heure d'hiver (fin octobre → fin mars) | 09h00 CET | `0 8 * * *` |
+| Heure d'été (fin mars → fin octobre) | 08h29 CEST | `29 6 * * *` |
+| Heure d'hiver (fin octobre → fin mars) | 08h29 CET | `29 7 * * *` |
 
 ## Objet de l'email
 
