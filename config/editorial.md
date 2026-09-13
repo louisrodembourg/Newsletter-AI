@@ -68,10 +68,15 @@ semaines une carte mentale du marché — qui fait quoi, qui monte, qui embauche
 Chaque fiche, en 3 à 5 phrases :
 - **Ce que fait l'entreprise**, techniquement et concrètement.
 - **Sa stack ou son angle technique** quand il est documenté.
-- **Son stade** : levée et valorisation, effectif, clients connus.
-- **Pourquoi elle compte** : ce qu'elle menace ou débloque.
-- **Ses signaux de croissance** quand ils sont publics : levée récente,
-  ouverture de bureau, vagues de recrutement annoncées.
+- **Son stade** : levée et valorisation, effectif approximatif, clients connus.
+- **Où elle est basée**, et si elle a une présence européenne.
+- **Pourquoi elle est intéressante** : le problème qu'elle attaque, ce qui la
+  distingue de ses concurrents.
+
+**Pas d'offres d'emploi, jamais.** Ni lien vers une page carrières, ni « ils
+recrutent des ingénieurs ». L'objectif est de donner une carte du marché —
+savoir que ces entreprises existent et ce qu'elles valent techniquement — pas
+de faire du sourcing d'annonces.
 
 Priorité aux entreprises qu'on ne connaît pas encore : un nouvel entrant qui
 lève 80 M$ sur l'inférence apprend davantage au lecteur qu'un énième point sur
@@ -79,8 +84,9 @@ OpenAI. Alterner les profils — labos, infra, outillage dev, applicatif
 vertical — et les géographies, en incluant régulièrement des acteurs français
 et européens, directement pertinents pour une candidature depuis la France.
 
-Ne jamais inventer une information de recrutement. Si rien de public n'est
-disponible sur ce point, la fiche s'arrête à ce que l'entreprise fait.
+Si les informations de financement ou d'effectif ne sont pas publiques, la
+fiche s'en tient à ce que l'entreprise fait et à ce qui la distingue. Ne jamais
+combler un trou par une estimation présentée comme un fait.
 
 ### 5. 🚀 Produits & adoption
 Lancements produits, agents, outils de dev, intégrations, déploiements en

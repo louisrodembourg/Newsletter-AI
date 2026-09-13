@@ -15,7 +15,7 @@ Priorité à la substance technique et industrielle, dans cet ordre :
 | ⚡ Le brief — 5 puces, dont au moins 2 techniques | — |
 | 🧠 Tech & recherche — modèles, papers, benchmarks, open-weights | ~34 % |
 | 🏗️ Infra, cloud & outillage — puces et datacenters, mais aussi services cloud, serving, frameworks d'agents, MLOps | ~22 % |
-| 🏢 Les acteurs — fiches d'entreprises : ce qu'elles font, leur stack, leur stade, leurs signaux de croissance | ~12 % |
+| 🏢 Les acteurs — fiches d'entreprises : ce qu'elles font, leur stack, leur stade, où elles sont basées | ~12 % |
 | 🚀 Produits & adoption — lancements, agents, déploiements réels | ~16 % |
 | 💰 Éco & investissement — levées, valorisations, IPO, M&A | ~10 % |
 | 👀 Signal faible + 📊 Le chiffre du jour | ~6 % |
@@ -24,6 +24,10 @@ La newsletter sert aussi un usage carrière : le lecteur doit en ressortir avec
 des noms d'entreprises, de modèles et d'outils réutilisables en entretien.
 D'où la rubrique **Les acteurs**, la moitié « outillage » de la rubrique infra,
 et une rubrique éco volontairement réduite à la macro-finance la plus utile.
+
+La rubrique Les acteurs dresse une **carte du marché** — quelles entreprises
+existent, ce qu'elles valent techniquement, où elles sont. Elle ne relaie
+jamais d'offres d'emploi ni de pages carrières.
 
 Périmètre géographique : **USA / labos frontier**, **Chine**, **France / Europe**.
 

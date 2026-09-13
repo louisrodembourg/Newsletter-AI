@@ -114,10 +114,13 @@ sort de l'édition — c'est une règle absolue, pas une préférence. Et deux i
 ne doivent jamais pointer vers la même URL : dans ce cas, fusionne-les.
 
 Pour la rubrique 🏢 Les acteurs, suis le format de fiche décrit dans
-`config/editorial.md` : ce que fait l'entreprise, sa stack, son stade, pourquoi
-elle compte, ses signaux de croissance publics. Privilégie les entreprises peu
-connues à un énième item sur OpenAI, et inclus régulièrement un acteur
-français ou européen.
+`config/editorial.md` : ce que fait l'entreprise, sa stack, son stade, où elle
+est basée, ce qui la distingue. Privilégie les entreprises peu connues à un
+énième item sur OpenAI, et inclus régulièrement un acteur français ou européen.
+
+**Aucune offre d'emploi**, aucun lien vers une page carrières, aucune mention
+du type « ils recrutent ». Le but est de cartographier le marché, pas de
+relayer des annonces.
 
 Rédige en français. Garde le jargon technique en anglais quand c'est l'usage.
 Aucun superlatif non étayé.
