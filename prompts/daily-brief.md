@@ -95,6 +95,11 @@ primaire. Le fait d'abord, le « pourquoi ça compte » ensuite.
 Rédige en français. Garde le jargon technique en anglais quand c'est l'usage.
 Aucun superlatif non étayé.
 
+**N'écris pas de ligne de clôture** du type « N sources consultées ce matin » :
+le pied de page est généré automatiquement à partir du champ
+`sources_consultees` du front-matter. L'y ajouter à la main la fait apparaître
+deux fois dans l'email.
+
 ## Étape 5 — Publier
 
 1. **Archiver** l'édition en Markdown dans `editions/AAAA-MM-JJ.md`, commiter
@@ -103,10 +108,25 @@ Aucun superlatif non étayé.
    marqueurs `{{...}}` par le contenu du jour. Le HTML doit rester
    email-safe — tables, CSS inline, pas de `<style>` externe, pas de
    JavaScript.
-3. **Envoyer** via l'outil Gmail `send_message` à l'adresse configurée dans
-   `config/delivery.md`, avec pour objet :
-   `Signal IA — <jour> <date> · <accroche du jour>`
-   L'accroche est le sujet le plus important de l'édition, en 4-6 mots.
+3. **Diffuser**, en descendant la cascade jusqu'au premier canal qui marche
+   (détail dans `config/delivery.md`) :
+
+   **a. Email Gmail** — `send_message` vers l'adresse de `config/delivery.md`,
+   objet `Signal IA — <jour> <date> · <accroche du jour>` (accroche : 4-6 mots
+   sur le sujet dominant). Fournir `body` (texte) *et* `htmlBody`.
+
+   Si l'appel échoue sur `Insufficient scope`, l'autorisation d'envoi n'a pas
+   encore été accordée : **ce n'est pas une erreur à corriger ni à retenter**,
+   passer au canal suivant.
+
+   **b. Artifact privé** — publier le HTML en artifact, titre `Signal IA`,
+   et récupérer l'URL.
+
+   **c. Notification push** — signaler que l'édition est prête, avec l'accroche
+   du jour et le lien de l'artifact.
+
+   Dans tous les cas, indiquer dans le message final quel canal a été utilisé,
+   et si l'email a échoué, rappeler en une ligne comment accorder la permission.
 
 ## Garde-fous
 

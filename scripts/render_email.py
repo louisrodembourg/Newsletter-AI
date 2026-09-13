@@ -166,6 +166,9 @@ def rendre_chiffre(blocs):
     for bloc in blocs:
         if bloc.startswith("# "):
             chiffre = bloc[2:].strip()
+        elif bloc.startswith("*") and bloc.endswith("*") and not bloc.startswith("**"):
+            # Note de clôture en italique : déjà rendue dans le pied de page.
+            continue
         else:
             contexte.append(inline(bloc))
     corps = " ".join(contexte)
