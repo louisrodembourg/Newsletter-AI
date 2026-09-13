@@ -12,12 +12,18 @@ Priorité à la substance technique et industrielle, dans cet ordre :
 
 | Rubrique | Poids |
 |----------|-------|
-| ⚡ Le brief — 5 puces, l'essentiel en 30 secondes | — |
-| 🧠 Tech & recherche — modèles, papers, benchmarks, open-weights | ~30 % |
-| 🏗️ Infra & compute — puces, datacenters, énergie, capex | ~22 % |
-| 🚀 Produits & adoption — lancements, agents, déploiements réels | ~22 % |
-| 💰 Éco & investissement — levées, valorisations, IPO, M&A | ~18 % |
-| 👀 Signal faible + 📊 Le chiffre du jour | ~8 % |
+| ⚡ Le brief — 5 puces, dont au moins 2 techniques | — |
+| 🧠 Tech & recherche — modèles, papers, benchmarks, open-weights | ~34 % |
+| 🏗️ Infra, cloud & outillage — puces et datacenters, mais aussi services cloud, serving, frameworks d'agents, MLOps | ~22 % |
+| 🏢 Les acteurs — fiches d'entreprises : ce qu'elles font, leur stack, leur stade, leurs signaux de croissance | ~12 % |
+| 🚀 Produits & adoption — lancements, agents, déploiements réels | ~16 % |
+| 💰 Éco & investissement — levées, valorisations, IPO, M&A | ~10 % |
+| 👀 Signal faible + 📊 Le chiffre du jour | ~6 % |
+
+La newsletter sert aussi un usage carrière : le lecteur doit en ressortir avec
+des noms d'entreprises, de modèles et d'outils réutilisables en entretien.
+D'où la rubrique **Les acteurs**, la moitié « outillage » de la rubrique infra,
+et une rubrique éco volontairement réduite à la macro-finance la plus utile.
 
 Périmètre géographique : **USA / labos frontier**, **Chine**, **France / Europe**.
 

@@ -21,16 +21,26 @@ fermé. `curl`, les flux RSS et `WebFetch` échouent tous (403 / EGRESS_BLOCKED)
 **`WebSearch` est le seul canal de collecte disponible** — il s'exécute côté
 serveur et fonctionne. N'essaie pas de contourner le proxy.
 
-Lance **au minimum 6 recherches**, une par angle, en parallèle :
+Lance **au minimum 8 recherches**, une par angle, en parallèle :
 
 | # | Angle | Exemple de requête |
 |---|-------|--------------------|
-| 1 | Modèles & recherche | `new AI model release benchmarks <mois année>` |
-| 2 | Infra & compute | `AI datacenter compute capex chips <mois année>` |
-| 3 | Produits & agents | `AI agents product launch enterprise <mois année>` |
-| 4 | Éco & investissement | `AI funding round valuation IPO <mois année>` |
-| 5 | Chine | `DeepSeek Qwen Chinese AI model <mois année>` |
-| 6 | France / Europe | `Mistral AI Act Europe intelligence artificielle <mois année>` |
+| 1 | Modèles & benchmarks | `new AI model release benchmarks <mois année>` |
+| 2 | Recherche & techniques | `AI research paper architecture training technique <mois année>` |
+| 3 | Infra & compute | `AI datacenter compute chips inference cost <mois année>` |
+| 4 | **Cloud & outillage dev** | `AI cloud platform inference serving developer tools <mois année>` |
+| 5 | **Nouveaux entrants** | `AI startup emerging company launch out of stealth <mois année>` |
+| 6 | Produits & agents | `AI agents product launch enterprise <mois année>` |
+| 7 | Chine | `DeepSeek Qwen Chinese AI model <mois année>` |
+| 8 | France / Europe | `Mistral AI startup France Europe intelligence artificielle <mois année>` |
+
+Les angles 2, 4 et 5 sont les ajouts qui servent l'usage carrière : ce sont
+eux qui alimentent la rubrique 🏢 Les acteurs et la moitié « outillage » de la
+rubrique infra. Ne les sacrifie pas quand le temps manque — sacrifie plutôt
+l'angle 6 ou un item d'éco.
+
+Une recherche d'éco/investissement n'est plus un angle dédié : la rubrique est
+réduite à deux items, que les autres recherches remontent naturellement.
 
 Ajoute des recherches de suivi sur tout sujet qui semble important mais reste
 flou après le premier passage. Mieux vaut dix recherches et une édition solide
@@ -70,6 +80,9 @@ Score chaque candidat sur trois axes avant d'arbitrer :
 - **Impact** — est-ce que ça change une décision, un rapport de force, un coût ?
 - **Nouveauté** — est-ce nouveau, ou un énième commentaire d'un fait connu ?
 - **Densité** — y a-t-il des chiffres, des détails techniques, du vérifiable ?
+- **Réutilisable** — le lecteur peut-il en faire quelque chose : citer un
+  modèle, nommer un outil, identifier une entreprise ? À intérêt égal, un fait
+  technique ou un acteur nommé passe devant un agrégat financier.
 
 Garde 15 à 20 items, répartis selon les poids de `config/editorial.md`.
 Une journée creuse donne une édition courte : c'est un résultat acceptable,
@@ -80,17 +93,31 @@ le remplissage ne l'est pas.
 Structure (voir `config/editorial.md` pour le détail de chaque rubrique) :
 
 ```
-⚡ Le brief            5 puces d'une ligne
-🧠 Tech & recherche    4-5 items
-🏗️ Infra & compute     3-4 items
-🚀 Produits & adoption 3-4 items
-💰 Éco & investissement 3-4 items
-👀 Signal faible       1 item
-📊 Le chiffre du jour  1 item
+⚡ Le brief                    5 puces, dont au moins 2 techniques
+🧠 Tech & recherche            5-6 items
+🏗️ Infra, cloud & outillage    3-4 items
+🏢 Les acteurs                 2-3 fiches
+🚀 Produits & adoption         2-3 items
+💰 Éco & investissement        2 items
+👀 Signal faible               1 item
+📊 Le chiffre du jour          1 item
 ```
+
+Les titres de rubrique doivent être repris **exactement** ainsi, emoji compris :
+`scripts/render_email.py` s'appuie dessus pour composer l'email.
 
 Chaque item : un titre court en gras, 2 à 4 phrases, un lien vers la source
 primaire. Le fait d'abord, le « pourquoi ça compte » ensuite.
+
+**Aucun item sans lien cliquable.** Si tu n'as pas de source à citer, l'item
+sort de l'édition — c'est une règle absolue, pas une préférence. Et deux items
+ne doivent jamais pointer vers la même URL : dans ce cas, fusionne-les.
+
+Pour la rubrique 🏢 Les acteurs, suis le format de fiche décrit dans
+`config/editorial.md` : ce que fait l'entreprise, sa stack, son stade, pourquoi
+elle compte, ses signaux de croissance publics. Privilégie les entreprises peu
+connues à un énième item sur OpenAI, et inclus régulièrement un acteur
+français ou européen.
 
 Rédige en français. Garde le jargon technique en anglais quand c'est l'usage.
 Aucun superlatif non étayé.
