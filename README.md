@@ -73,8 +73,13 @@ Les 49 sources de `config/sources.yaml` servent donc de **filtre de confiance**
 directement aspirés.
 
 > Si l'egress est ouvert plus tard sur les domaines de news, la collecte peut
-> passer en mode RSS — plus exhaustive et plus fidèle aux sources. Les
-> domaines sont déjà listés pour ça. C'est une évolution, pas un prérequis.
+> passer en mode RSS — plus exhaustive et plus fidèle aux sources. C'est une
+> évolution, **pas un prérequis** : la newsletter fonctionne sans.
+>
+> Pour l'ouvrir : claude.ai/code → environnement « Newsletter IA » → niveau
+> d'accès réseau → **Custom**, en y collant
+> [`config/egress-allowlist.txt`](config/egress-allowlist.txt) (53 domaines,
+> déjà prêt).
 
 Trois domaines (`reuters.com`, `lesechos.fr`, `zdnet.com`) refusent par
 ailleurs le crawler et sont marqués `crawler_blocked: true` : ne jamais les

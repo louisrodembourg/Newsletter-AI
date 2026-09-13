@@ -1,0 +1,63 @@
+# Liste d'autorisation réseau — Signal IA
+#
+# À coller dans le niveau d'accès réseau « Custom » de l'environnement
+# « Newsletter IA » (env_01R1M1VJp2bDkVoNWRCMKDt9), sur claude.ai/code.
+#
+# ⚠️ NON NÉCESSAIRE au fonctionnement de la newsletter : WebSearch fonctionne
+# déjà et suffit. Ouvrir l'egress permet en plus la collecte RSS directe et
+# WebFetch, donc une couverture plus exhaustive et plus fidèle aux sources.
+#
+# Domaines des 49 sources de config/sources.yaml, plus quelques hôtes de flux.
+ai.meta.com
+alphaxiv.org
+anthropic.com
+arstechnica.com
+arxiv.org
+bloomberg.com
+caixinglobal.com
+chinatalk.media
+cnbc.com
+datacenterdynamics.com
+deeplearning.ai
+deepmind.google
+euractiv.com
+export.arxiv.org
+feeds.arstechnica.com
+ft.com
+hnrss.org
+huggingface.co
+ieee.org
+importai.substack.com
+lesechos.fr
+maddyness.com
+magazine.sebastianraschka.com
+mistral.ai
+news.crunchbase.com
+news.ycombinator.com
+next.ink
+nvidia.com
+openai.com
+pitchbook.com
+politico.com
+recodechinaai.substack.com
+reddit.com
+reuters.com
+scmp.com
+semianalysis.com
+sifted.eu
+simonwillison.net
+stratechery.com
+techcrunch.com
+technode.com
+technologyreview.com
+theinformation.com
+theregister.com
+theverge.com
+tomshardware.com
+transformernews.ai
+trendforce.com
+usine-digitale.fr
+venturebeat.com
+wsj.com
+www.reddit.com
+zdnet.com
