@@ -1,0 +1,111 @@
+<!--
+  Gabarit email — Signal IA
+  Contraintes : HTML email-safe. Tables pour la mise en page, CSS 100 % inline,
+  aucune feuille de style externe, aucun JavaScript, largeur fixe 600 px.
+  Testé pour Gmail web et mobile.
+
+  Marqueurs à remplacer :
+    {{DATE_LONGUE}}   ex. « dimanche 13 septembre 2026 »
+    {{ACCROCHE}}      4-6 mots, le sujet dominant du jour
+    {{TEMPS_LECTURE}} ex. « 7 min »
+    {{BRIEF_ITEMS}}   les <li> du brief
+    {{SECTIONS}}      les blocs de rubriques (voir modèle en bas de fichier)
+    {{NB_SOURCES}}    nombre de sources consultées
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f2;margin:0;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:100%;background-color:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+
+        <!-- En-tête -->
+        <tr>
+          <td style="background-color:#14161a;padding:28px 32px 24px 32px;">
+            <p style="margin:0 0 6px 0;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:#8a8f98;font-weight:600;">Signal IA</p>
+            <h1 style="margin:0 0 10px 0;font-size:25px;line-height:1.25;color:#ffffff;font-weight:700;">{{ACCROCHE}}</h1>
+            <p style="margin:0;font-size:13px;color:#8a8f98;">{{DATE_LONGUE}} &nbsp;·&nbsp; {{TEMPS_LECTURE}} de lecture</p>
+          </td>
+        </tr>
+
+        <!-- Le brief -->
+        <tr>
+          <td style="padding:26px 32px 6px 32px;">
+            <p style="margin:0 0 14px 0;font-size:15px;font-weight:700;color:#14161a;">⚡ Le brief</p>
+            <ul style="margin:0;padding:0 0 0 18px;color:#2b2f36;font-size:14.5px;line-height:1.65;">
+              {{BRIEF_ITEMS}}
+            </ul>
+          </td>
+        </tr>
+
+        <tr><td style="padding:22px 32px 0 32px;"><div style="border-top:1px solid #e6e6e2;"></div></td></tr>
+
+        <!-- Rubriques -->
+        {{SECTIONS}}
+
+        <!-- Pied -->
+        <tr>
+          <td style="background-color:#fafaf8;padding:22px 32px;border-top:1px solid #e6e6e2;">
+            <p style="margin:0 0 6px 0;font-size:12px;line-height:1.6;color:#6b7079;">
+              {{NB_SOURCES}} sources consultées ce matin. Chaque information est recoupée
+              avant publication ; les incertitudes sont signalées comme telles.
+            </p>
+            <p style="margin:0;font-size:12px;color:#9aa0a8;">
+              Signal IA — édition quotidienne générée par Claude Code.
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!--
+  ══════════════════════════════════════════════════════════════════════════
+  MODÈLE DE RUBRIQUE — répéter pour chaque section, insérer dans {{SECTIONS}}
+  ══════════════════════════════════════════════════════════════════════════
+
+  <tr>
+    <td style="padding:24px 32px 0 32px;">
+      <p style="margin:0 0 4px 0;font-size:15px;font-weight:700;color:#14161a;">{{EMOJI}} {{TITRE_RUBRIQUE}}</p>
+      <p style="margin:0 0 16px 0;font-size:12px;color:#9aa0a8;">{{SOUS_TITRE_RUBRIQUE}}</p>
+
+      MODÈLE D'ITEM — répéter :
+      <p style="margin:0 0 5px 0;font-size:14.5px;font-weight:650;color:#14161a;line-height:1.4;">{{TITRE_ITEM}}</p>
+      <p style="margin:0 0 18px 0;font-size:14px;line-height:1.65;color:#2b2f36;">
+        {{CORPS_ITEM}}
+        <a href="{{URL_SOURCE}}" style="color:#0b63c5;text-decoration:none;font-weight:600;">{{NOM_SOURCE}} &rarr;</a>
+      </p>
+    </td>
+  </tr>
+
+  ── Encadré « signal faible » (fond distinct pour le sortir du flux) ──
+
+  <tr>
+    <td style="padding:8px 32px 0 32px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f7f5ef;border-left:3px solid #c9a227;border-radius:0 6px 6px 0;">
+        <tr>
+          <td style="padding:16px 18px;">
+            <p style="margin:0 0 6px 0;font-size:13px;font-weight:700;color:#14161a;">👀 Signal faible</p>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:#2b2f36;">{{CORPS_SIGNAL}}</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  ── Encadré « chiffre du jour » ──
+
+  <tr>
+    <td style="padding:14px 32px 4px 32px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#14161a;border-radius:6px;">
+        <tr>
+          <td style="padding:18px 20px;" align="center">
+            <p style="margin:0 0 4px 0;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#8a8f98;font-weight:600;">📊 Le chiffre du jour</p>
+            <p style="margin:0 0 6px 0;font-size:32px;font-weight:700;color:#ffffff;line-height:1.1;">{{CHIFFRE}}</p>
+            <p style="margin:0;font-size:13.5px;line-height:1.6;color:#c3c7cd;">{{CONTEXTE_CHIFFRE}}</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+-->

@@ -1,0 +1,93 @@
+# Sources de référence — Signal IA
+#
+# Usage : les domaines listés ici servent de filtre `allowed_domains` pour les
+# recherches web de la routine quotidienne, rubrique par rubrique.
+# `tier` indique la priorité de confiance :
+#   1 = source primaire (le labo ou l'entreprise qui annonce)
+#   2 = presse ou analyse de référence, vérifiée
+#   3 = signal communautaire, à recouper avant publication
+#
+# `paywall: true` = contenu souvent inaccessible. On cite la source, on ne
+# prétend jamais avoir lu au-delà du titre.
+
+tech_recherche:
+  - { domain: openai.com,            tier: 1, note: "Annonces et cartes de modèles OpenAI" }
+  - { domain: anthropic.com,         tier: 1, note: "Annonces, recherche, safety Anthropic" }
+  - { domain: deepmind.google,       tier: 1, note: "Recherche Google DeepMind" }
+  - { domain: ai.meta.com,           tier: 1, note: "Meta AI / Llama" }
+  - { domain: mistral.ai,            tier: 1, note: "Mistral — labo européen de référence" }
+  - { domain: arxiv.org,             tier: 1, note: "Papers bruts, cs.AI / cs.LG / cs.CL" }
+  - { domain: huggingface.co,        tier: 1, note: "Daily Papers, releases de modèles, tendances open-weights" }
+  - { domain: simonwillison.net,     tier: 2, note: "Veille technique quotidienne, très fiable sur les sorties de modèles" }
+  - { domain: magazine.sebastianraschka.com, tier: 2, note: "Analyse d'architectures, profondeur technique" }
+  - { domain: importai.substack.com, tier: 2, note: "Import AI (Jack Clark) — recherche et policy" }
+  - { domain: deeplearning.ai,       tier: 2, note: "The Batch (Andrew Ng)" }
+  - { domain: alphaxiv.org,          tier: 3, note: "Discussion et contexte autour des papers" }
+
+infra_compute:
+  - { domain: semianalysis.com,      tier: 1, note: "LA référence sur l'économie du compute et des semis", paywall: true }
+  - { domain: nvidia.com,            tier: 1, note: "Annonces produits et résultats Nvidia" }
+  - { domain: datacenterdynamics.com,tier: 2, note: "Datacenters, énergie, capacité" }
+  - { domain: tomshardware.com,      tier: 2, note: "Hardware, benchmarks, approvisionnement" }
+  - { domain: theregister.com,       tier: 2, note: "Infra entreprise, ton sceptique utile" }
+  - { domain: ieee.org,              tier: 2, note: "IEEE Spectrum — fond technique sur puces et énergie" }
+  - { domain: trendforce.com,        tier: 2, note: "Chaîne d'approvisionnement mémoire et foundry" }
+
+produits_adoption:
+  - { domain: techcrunch.com,        tier: 2, note: "Lancements produits et startups" }
+  - { domain: theverge.com,          tier: 2, note: "Produits grand public, bonne couverture des sorties" }
+  - { domain: venturebeat.com,       tier: 2, note: "Adoption entreprise, angle IT" }
+  - { domain: arstechnica.com,       tier: 2, note: "Analyse produit technique, vérification sérieuse" }
+  - { domain: zdnet.com,             tier: 3, crawler_blocked: true, note: "Déploiements entreprise" }
+  - { domain: news.ycombinator.com,  tier: 3, note: "Signal développeur, à recouper" }
+  - { domain: reddit.com,            tier: 3, note: "r/LocalLLaMA — signal open-weights, à recouper" }
+
+eco_investissement:
+  - { domain: theinformation.com,    tier: 1, note: "Scoops labos, souvent en avance de plusieurs jours", paywall: true }
+  - { domain: bloomberg.com,         tier: 1, note: "Marchés, deals, résultats", paywall: true }
+  - { domain: reuters.com,           tier: 1, crawler_blocked: true, note: "Fil de référence, factuel" }
+  - { domain: ft.com,                tier: 1, note: "Finance et stratégie", paywall: true }
+  - { domain: wsj.com,               tier: 1, note: "Deals et gouvernance des labos", paywall: true }
+  - { domain: cnbc.com,              tier: 2, note: "Résultats trimestriels, réaction marché" }
+  - { domain: stratechery.com,       tier: 2, note: "Analyse stratégique de fond", paywall: true }
+  - { domain: news.crunchbase.com,   tier: 2, note: "Levées et tours de table, données structurées" }
+  - { domain: pitchbook.com,         tier: 2, note: "Données de marché VC" }
+
+chine:
+  - { domain: chinatalk.media,       tier: 1, note: "Meilleure analyse anglophone de la tech chinoise" }
+  - { domain: scmp.com,              tier: 2, note: "Couverture quotidienne de l'écosystème chinois" }
+  - { domain: technode.com,          tier: 2, note: "Tech chinoise, angle produit et industrie" }
+  - { domain: caixinglobal.com,      tier: 2, note: "Économie chinoise, rigueur reconnue", paywall: true }
+  - { domain: recodechinaai.substack.com, tier: 2, note: "Modèles et labos chinois, veille dédiée" }
+
+france_europe:
+  - { domain: lesechos.fr,           tier: 2, crawler_blocked: true, note: "Éco tech France", paywall: true }
+  - { domain: usine-digitale.fr,     tier: 2, note: "Industrie et IA en France, bonne profondeur" }
+  - { domain: next.ink,              tier: 2, note: "Tech FR, rigueur et indépendance" }
+  - { domain: sifted.eu,             tier: 2, note: "Startups européennes, données de financement" }
+  - { domain: maddyness.com,         tier: 3, note: "Écosystème startup FR" }
+  - { domain: euractiv.com,          tier: 2, note: "AI Act et politique numérique européenne" }
+
+regulation:
+  - { domain: transformernews.ai,    tier: 2, note: "Policy et safety IA, synthèse quotidienne" }
+  - { domain: politico.com,          tier: 2, note: "Politique IA US et UE" }
+  - { domain: technologyreview.com,  tier: 2, note: "MIT Tech Review — fond sur impacts et régulation" }
+
+# --- Notes opérationnelles -------------------------------------------------
+#
+# Domaines marqués `crawler_blocked: true` :
+#   Ces sites refusent le user-agent d'Anthropic. Les passer dans
+#   `allowed_domains` fait échouer la recherche avec une erreur 400. Ils
+#   restent listés pour mémoire éditoriale — un fait qu'ils publient reste
+#   citable s'il est repris par une source accessible — mais ne JAMAIS les
+#   inclure dans un filtre `allowed_domains`.
+#   Constaté au 13/09/2026 : reuters.com, lesechos.fr, zdnet.com.
+#   Retester périodiquement, la liste peut évoluer.
+#
+# Sources volontairement écartées :
+#   - Agrégateurs générés automatiquement (aiweekly.co, llm-stats.com et
+#     similaires) : contenu recopié, pas de vérification, risque de reprendre
+#     une erreur à la source. On remonte toujours à l'annonce d'origine.
+#   - Medium, Substack non identifiés, LinkedIn : signal trop faible.
+#   - X / Twitter : utile en veille humaine, inexploitable de façon fiable en
+#     automatisation.
