@@ -10,9 +10,17 @@ Lis dans l'ordre :
 1. `config/editorial.md` — la ligne éditoriale. Elle fait autorité sur la
    hiérarchie des rubriques, le périmètre et les règles de rédaction.
 2. `config/sources.yaml` — les sources de référence et leur niveau de confiance.
-3. Les **3 dernières éditions** dans `editions/` — pour ne pas répéter un sujet
-   déjà traité et pour pouvoir écrire « suite de l'édition d'hier » quand un
-   sujet évolue.
+3. **Lance `python3 scripts/registry.py`** — c'est la mémoire de la
+   newsletter, recalculée depuis les éditions archivées. Elle te dit :
+   - quels **acteurs** ont déjà eu leur fiche (ne jamais la refaire) ;
+   - quels **domaines sources** sont sur-utilisés, et lesquels du catalogue
+     n'ont jamais servi : pioche en priorité dans ces derniers ;
+   - quels **sujets** sont sortis récemment : un sujet ne revient que s'il a
+     réellement évolué, et s'écrit alors comme une suite, pas comme une
+     nouvelle.
+
+   Ne saute jamais cette étape : c'est elle qui empêche de republier
+   Agentforce deux fois en trois jours, ce qui est arrivé les 13 et 15/09.
 
 ## Étape 1 — Collecter
 
@@ -45,6 +53,11 @@ réduite à deux items, que les autres recherches remontent naturellement.
 Ajoute des recherches de suivi sur tout sujet qui semble important mais reste
 flou après le premier passage. Mieux vaut dix recherches et une édition solide
 que six recherches et des approximations.
+
+Varie tes sources : si `registry.py` signale un domaine déjà très sollicité,
+cible explicitement d'autres domaines du catalogue via `allowed_domains` —
+blogs de labos, arXiv, Hugging Face, ChinaTalk, Next.ink, Sifted, IEEE,
+Data Center Dynamics n'ont encore jamais servi.
 
 Passe systématiquement `blocked_domains` pour écarter les fermes de contenu :
 `["aiweekly.co", "llm-stats.com", "aidapted.ro", "felloai.com", "geeky-gadgets.com"]`
@@ -129,6 +142,23 @@ Aucun superlatif non étayé.
 le pied de page est généré automatiquement à partir du champ
 `sources_consultees` du front-matter. L'y ajouter à la main la fait apparaître
 deux fois dans l'email.
+
+## Étape 4bis — Contrôler (obligatoire, avant toute diffusion)
+
+    python3 scripts/check_edition.py editions/AAAA-MM-JJ.md
+
+Le script vérifie ce que la relecture humaine laisse passer : rubriques
+présentes, chaque item sourcé, aucune URL citée deux fois, pas plus de deux
+items par domaine, au moins deux puces techniques dans le brief, chiffre du
+jour non déjà servi, et proximité avec les sujets des sept derniers jours.
+
+**Tant qu'il reste une erreur (✗), l'édition ne part pas.** Corrige le
+Markdown et relance-le : c'est une boucle, pas une formalité. Les
+avertissements (!) ne bloquent pas mais méritent une correction quand elle
+est simple.
+
+Appliqué rétroactivement, ce contrôle rejetait les trois premières éditions.
+Ce n'est donc pas un filet théorique.
 
 ## Étape 5 — Publier
 

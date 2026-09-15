@@ -29,6 +29,7 @@ GRIS_PIED = "#6b7079"
 LIEN = "#0b63c5"
 BORDURE = "#e6e6e2"
 OR = "#c9a227"
+FOND_META = "#eef1ee"
 
 MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
         "août", "septembre", "octobre", "novembre", "décembre"]
@@ -117,6 +118,22 @@ def rendre_item(bloc):
                    f'color:{ENCRE};line-height:1.4;">{inline(titre[2:-2])}</p>')
     else:
         corps = bloc.strip()
+
+    # Ligne de métadonnées d'un acteur : `Pays · Stade · Montant · Domaine`
+    meta_ligne = ""
+    if corps.startswith("`"):
+        fin = corps.find("`", 1)
+        if fin > 0:
+            champs = [c.strip() for c in corps[1:fin].split("·") if c.strip()]
+            corps = corps[fin + 1:].strip()
+            puces = "".join(
+                f'<span style="display:inline-block;background:{FOND_META};'
+                f'color:{ENCRE};font-size:11.5px;font-weight:600;padding:3px 9px;'
+                f'border-radius:11px;margin:0 6px 5px 0;">{inline(c)}</span>'
+                for c in champs)
+            meta_ligne = f'<p style="margin:0 0 9px 0;line-height:1.9;">{puces}</p>'
+    sortie += meta_ligne
+
     if corps:
         sortie += (f'<p style="margin:0 0 18px 0;font-size:14px;line-height:1.65;'
                    f'color:{TEXTE};">{inline(corps)}</p>')
@@ -215,7 +232,29 @@ def rendre(chemin):
             morceaux.append(rendre_section(titre, blocs))
 
     accroche = html.escape(meta.get("accroche", "Édition du jour"))
-    return f"""<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f2;margin:0;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+
+    # Pré-header : ce que les clients mail affichent en aperçu, à côté de
+    # l'objet. Sans lui, l'aperçu gaspille sa place avec « Signal IA » et la
+    # date. On y met les trois premiers sujets du brief.
+    sujets = []
+    for titre_sec, blocs_sec in sections:
+        if "brief" in titre_sec.lower():
+            for bloc in blocs_sec:
+                for ligne in bloc.splitlines():
+                    ligne = ligne.strip()
+                    if ligne.startswith("- "):
+                        brut = re.sub(r"\*\*(.+?)\*\*", r"\1", ligne[2:])
+                        brut = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", brut)
+                        sujets.append(brut.split(" : ")[0].split(" — ")[0].strip())
+            break
+    preheader = html.escape(" · ".join(sujets[:3]))[:200]
+
+    date_iso = meta.get("date", "")
+    lien_archive = (f"https://github.com/louisrodembourg/Newsletter-AI/blob/"
+                    f"claude/daily-ai-newsletter-rwq5m6/editions/{date_iso}.md")
+
+    return f"""<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">{preheader}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f2;margin:0;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   <tr>
     <td align="center">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:100%;background-color:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
@@ -223,7 +262,8 @@ def rendre(chemin):
           <td style="background-color:{ENCRE};padding:28px 32px 24px 32px;">
             <p style="margin:0 0 6px 0;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:{GRIS};font-weight:600;">Signal IA</p>
             <h1 style="margin:0 0 10px 0;font-size:25px;line-height:1.25;color:#ffffff;font-weight:700;">{accroche}</h1>
-            <p style="margin:0;font-size:13px;color:{GRIS};">{date_longue(meta.get('date', ''))} &nbsp;&middot;&nbsp; {html.escape(meta.get('temps_lecture', '7 min'))} de lecture</p>
+            <p style="margin:0 0 2px 0;font-size:13px;color:{GRIS};">{date_longue(meta.get('date', ''))} &nbsp;&middot;&nbsp; {html.escape(meta.get('temps_lecture', '7 min'))} de lecture</p>
+            <p style="margin:0;font-size:12px;"><a href="{lien_archive}" style="color:{GRIS};text-decoration:none;border-bottom:1px solid #3a3f47;">Archive et éditions précédentes &rarr;</a></p>
           </td>
         </tr>
         {''.join(morceaux)}

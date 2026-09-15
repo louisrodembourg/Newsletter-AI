@@ -23,6 +23,11 @@ tech_recherche:
   - { domain: importai.substack.com, tier: 2, note: "Import AI (Jack Clark) — recherche et policy" }
   - { domain: deeplearning.ai,       tier: 2, note: "The Batch (Andrew Ng)" }
   - { domain: alphaxiv.org,          tier: 3, note: "Discussion et contexte autour des papers" }
+  - { domain: artificialanalysis.ai, tier: 1, note: "Comparatifs chiffrés modèles : qualité, coût au token, latence, débit. LA référence pour arbitrer un modèle" }
+  - { domain: epoch.ai,              tier: 1, note: "Données quantitatives sur le compute, les coûts d'entraînement et les tendances de capacité" }
+  - { domain: lmarena.ai,            tier: 2, note: "Classement par préférence humaine, utile en contrepoint des benchmarks déclaratifs" }
+  - { domain: interconnects.ai,      tier: 2, note: "Nathan Lambert — analyse de fond sur les open-weights et le post-training" }
+  - { domain: latent.space,          tier: 2, note: "Ingénierie IA appliquée : outillage, architectures d'agents, retours de praticiens" }
 
 infra_compute:
   - { domain: semianalysis.com,      tier: 1, note: "LA référence sur l'économie du compute et des semis", paywall: true }
@@ -52,6 +57,7 @@ eco_investissement:
   - { domain: stratechery.com,       tier: 2, note: "Analyse stratégique de fond", paywall: true }
   - { domain: news.crunchbase.com,   tier: 2, note: "Levées et tours de table, données structurées" }
   - { domain: pitchbook.com,         tier: 2, note: "Données de marché VC" }
+  - { domain: dealroom.co,           tier: 2, note: "Base de données startups européennes : levées, effectifs, investisseurs" }
 
 chine:
   - { domain: chinatalk.media,       tier: 1, note: "Meilleure analyse anglophone de la tech chinoise" }
@@ -66,6 +72,8 @@ france_europe:
   - { domain: next.ink,              tier: 2, note: "Tech FR, rigueur et indépendance" }
   - { domain: sifted.eu,             tier: 2, note: "Startups européennes, données de financement" }
   - { domain: maddyness.com,         tier: 3, note: "Écosystème startup FR" }
+  - { domain: eu-startups.com,       tier: 2, note: "Levées et lancements dans toute l'Europe, bon pour repérer des acteurs peu couverts" }
+  - { domain: station-f.co,          tier: 3, note: "Écosystème startup parisien, utile pour la rubrique Les acteurs" }
   - { domain: euractiv.com,          tier: 2, note: "AI Act et politique numérique européenne" }
 
 regulation:

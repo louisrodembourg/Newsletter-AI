@@ -65,7 +65,19 @@ dit quelque chose de la capacité réellement disponible.
 Deux à trois fiches courtes par édition. Objectif : constituer au fil des
 semaines une carte mentale du marché — qui fait quoi, qui monte, qui embauche.
 
-Chaque fiche, en 3 à 5 phrases :
+Chaque fiche s'ouvre sur une **ligne de métadonnées** entre accents graves,
+champs séparés par « · », que l'email transforme en étiquettes :
+
+```
+**Arlequin AI — une architecture délibérément non-LLM**
+`France · Série A · 28 M€ · analyse de données`
+Corps de la fiche… [Maddyness →](url)
+```
+
+Ordre des champs : pays, stade de financement, montant levé, domaine. Omettre
+un champ inconnu plutôt que de l'inventer ou d'écrire « n.c. ».
+
+Puis, en 3 à 5 phrases :
 - **Ce que fait l'entreprise**, techniquement et concrètement.
 - **Sa stack ou son angle technique** quand il est documenté.
 - **Son stade** : levée et valorisation, effectif approximatif, clients connus.
@@ -108,6 +120,13 @@ suffisent.
 Un signal sous-couvert qui pourrait compter dans six mois. Un chiffre marquant
 remis en contexte. Deux items courts pour clore.
 
+**Le chiffre du jour doit porter sur un fait que l'édition n'a pas déjà servi
+deux fois.** Le 15/09, la chute de Nvidia figurait dans le brief, dans la
+rubrique éco *et* comme chiffre du jour : trois fois le même fait sur une
+édition de treize items. Si le chiffre le plus spectaculaire est déjà traité
+ailleurs, en prendre un autre — un chiffre technique, d'adoption ou de coût
+fait très bien l'affaire et élargit l'édition au lieu de la refermer.
+
 ## Périmètre géographique
 
 Trois zones suivies, dans cet ordre de volume :
@@ -123,6 +142,20 @@ Trois zones suivies, dans cet ordre de volume :
 Le reste du monde (Golfe, Inde, Japon, Corée) n'est traité que lorsqu'il pèse
 directement sur ces trois zones — typiquement un méga-deal datacenter qui
 déplace l'allocation mondiale de compute.
+
+## Diversité des sources
+
+**Deux items maximum par domaine et par édition.** Mesuré sur les trois
+premières éditions : CNBC cité 5 fois, TechCrunch 5 fois, The Register 4 fois,
+pendant que 33 des 46 sources du catalogue n'étaient jamais sollicitées. Une
+newsletter qui recopie trois fois le même média n'a pas fait de veille, elle a
+lu un journal.
+
+Avant de rédiger, `scripts/registry.py` affiche les domaines sur-utilisés et
+ceux du catalogue jamais servis : **piocher en priorité dans les seconds**.
+Les sources primaires — blog du labo, dépôt SEC, page d'annonce — ne sont
+jamais sur-sollicitées au sens de cette règle : elles sont toujours préférables
+à un article qui les commente.
 
 ## Ce qu'on ne traite pas
 

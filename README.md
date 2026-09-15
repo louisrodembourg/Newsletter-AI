@@ -46,6 +46,8 @@ prompts/
 templates/
   email.html        Gabarit email de référence (tables, CSS inline)
 scripts/
+  registry.py       Mémoire : acteurs déjà traités, sources sur-utilisées, sujets récents
+  check_edition.py  Contrôle qualité bloquant, à passer avant tout envoi
   render_email.py   Markdown d'édition → HTML email-safe
 editions/
   AAAA-MM-JJ.md     Archive de chaque édition
@@ -60,7 +62,9 @@ editions/
 4. Elle **vérifie** : remontée à la source primaire, corroboration de chaque
    chiffre, traitement explicite des contradictions. Un fait non corroboré
    n'entre pas dans l'édition.
-5. Elle rédige l'édition en Markdown et l'archive dans `editions/`.
+5. Elle rédige l'édition en Markdown, puis **`check_edition.py` la valide** :
+   tant qu'une règle bloquante est violée, l'édition ne part pas.
+6. Elle archive dans `editions/`.
 6. `scripts/render_email.py` produit le HTML, diffusé en cascade : email
    Gmail, sinon artifact privé, sinon notification push.
 
@@ -95,11 +99,28 @@ Trois domaines (`reuters.com`, `lesechos.fr`, `zdnet.com`) refusent par
 ailleurs le crawler et sont marqués `crawler_blocked: true` : ne jamais les
 passer en `allowed_domains`, la recherche échouerait.
 
-## Vérifier une édition à la main
+## Les trois outils
 
 ```bash
-python3 scripts/render_email.py editions/2026-09-13.md --out /tmp/apercu.html
+# Mémoire : qui a déjà eu sa fiche, quelles sources sont épuisées
+python3 scripts/registry.py
+
+# Contrôle qualité — sort en code 1 si une règle bloquante est violée
+python3 scripts/check_edition.py editions/2026-09-15.md
+
+# Aperçu du rendu email
+python3 scripts/render_email.py editions/2026-09-15.md --out /tmp/apercu.html
 ```
+
+`check_edition.py` encode les règles de `config/editorial.md` : rubriques
+présentes, chaque item sourcé, aucune URL répétée, deux items maximum par
+domaine, deux puces techniques minimum dans le brief, chiffre du jour non
+déjà servi, proximité avec les sujets des sept derniers jours.
+
+Appliqué rétroactivement, il rejetait les trois premières éditions — items
+sans source, même média cité trois fois, chiffre du jour déjà présent dans le
+brief. Les règles écrites ne suffisaient pas : il fallait les rendre
+exécutables.
 
 ## Modifier la newsletter
 
