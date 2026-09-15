@@ -1,13 +1,17 @@
 # Configuration de livraison
 
-## Destinataire
+## Destinataires
 
 ```
-email : louis68600@gmail.com
+to : louis68600@gmail.com, louis.rodembourg@ovhcloud.com
 ```
 
-✅ **Confirmé par Louis le 13/09/2026.** La routine n'envoie
-jamais à une autre adresse que celle inscrite ici. Pour changer de
+Les deux adresses reçoivent la même édition, dans le champ `to` d'un unique
+envoi (pas deux emails séparés).
+
+✅ **Adresse personnelle confirmée par Louis le 13/09/2026, adresse
+professionnelle ajoutée à sa demande le 15/09/2026.** La routine n'envoie
+jamais à une adresse absente de cette liste. Pour ajouter ou retirer un
 destinataire, modifier ce fichier — pas le prompt.
 
 ## Horaire

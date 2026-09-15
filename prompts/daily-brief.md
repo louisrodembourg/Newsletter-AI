@@ -141,7 +141,8 @@ deux fois dans l'email.
 3. **Diffuser**, en descendant la cascade jusqu'au premier canal qui marche
    (détail dans `config/delivery.md`) :
 
-   **a. Email Gmail** — `send_message` vers l'adresse de `config/delivery.md`,
+   **a. Email Gmail** — `send_message` vers **toutes** les adresses listées
+   dans `config/delivery.md` (champ `to`, un seul envoi pour l'ensemble),
    objet `Signal IA — <jour> <date> · <accroche du jour>` (accroche : 4-6 mots
    sur le sujet dominant). Fournir `body` (texte) *et* `htmlBody`.
 
