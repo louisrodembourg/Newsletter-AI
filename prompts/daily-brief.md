@@ -172,6 +172,18 @@ deux fois dans l'email.
    encore été accordée : **ce n'est pas une erreur à corriger ni à retenter**,
    passer au canal suivant.
 
+   **Pour toute AUTRE erreur d'envoi, ne bascule pas tout de suite en artifact.**
+   Un envoi groupé peut échouer à cause d'un seul destinataire. Réessaie alors
+   **une adresse à la fois**, en commençant par la première de la liste : mieux
+   vaut une boîte servie sur deux que zéro. Ce n'est qu'après l'échec de chaque
+   adresse prise séparément que tu passes à l'artifact.
+
+   Dis toujours explicitement, dans ton message final, quelles adresses ont
+   reçu l'édition et lesquelles ont échoué, avec le message d'erreur exact.
+   Un échec d'envoi non documenté est impossible à diagnostiquer ensuite —
+   c'est arrivé le 15/09/2026 : une session a basculé en artifact sans jamais
+   dire pourquoi l'envoi avait échoué.
+
    **b. Artifact privé** — publier le HTML en artifact, titre `Signal IA`,
    et récupérer l'URL.
 
