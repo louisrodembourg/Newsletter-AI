@@ -99,6 +99,22 @@ elle descend la cascade jusqu'au premier canal qui fonctionne.
 L'archive dans `editions/` a lieu **dans tous les cas** : même si tous les
 canaux de diffusion échouent, l'édition du jour n'est jamais perdue.
 
+## Incident connu : le corps de l'email remplacé par une commande
+
+**15/09/2026.** L'édition envoyée avait pour unique contenu la chaîne
+`$(cat /tmp/edition-2026-09-15.html)`. La session avait bien généré le HTML
+dans un fichier, mais a passé la substitution shell comme valeur de `htmlBody`
+en supposant qu'elle serait interprétée. Les arguments d'un appel d'outil ne
+traversent aucun shell : la chaîne part littéralement.
+
+Symptôme reconnaissable : un email de ~14 Ko au lieu de ~35 Ko, dont l'aperçu
+Gmail affiche une commande. Un cas voisin s'était produit le 13/09 avec du HTML
+envoyé en texte brut.
+
+La parade est dans `prompts/daily-brief.md`, étape 5a : lire le fichier, coller
+son contenu réel, et vérifier avant l'envoi que `htmlBody` commence par
+`<table`, dépasse 5 000 caractères et ne contient ni `$(` ni backtick.
+
 ## Comportement en cas de problème
 
 | Situation | Comportement attendu |
@@ -106,4 +122,5 @@ canaux de diffusion échouent, l'édition du jour n'est jamais perdue.
 | `WebSearch` échoue totalement | Email court signalant la panne. Jamais d'édition vide. |
 | Collecte pauvre (< 8 items solides) | Édition courte assumée. Pas de remplissage. |
 | Échec de l'envoi Gmail | L'édition est tout de même commitée dans `editions/`, et la panne est signalée. |
+| `htmlBody` suspect (trop court, contient `$(`) | Ne pas envoyer. Relire le fichier rendu et recommencer. |
 | Un fait majeur non corroboré | Il passe en « signal faible » avec sa mention d'incertitude, ou il est écarté. |

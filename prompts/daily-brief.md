@@ -145,6 +145,28 @@ deux fois dans l'email.
    objet `Signal IA — <jour> <date> · <accroche du jour>` (accroche : 4-6 mots
    sur le sujet dominant). Fournir `body` (texte) *et* `htmlBody`.
 
+   ⚠️ **PIÈGE À ÉVITER — lis ce paragraphe avant chaque envoi.**
+   Les paramètres d'un appel d'outil **ne sont interprétés par aucun shell**.
+   Écrire `$(cat fichier.html)`, `` `cat fichier.html` `` ou `$VARIABLE` dans
+   `htmlBody` envoie **la chaîne littérale** au destinataire, pas le contenu du
+   fichier. C'est arrivé le 15/09/2026 : l'édition entière a été remplacée par
+   la ligne `$(cat /tmp/edition-2026-09-15.html)` dans la boîte du lecteur.
+
+   La marche à suivre, sans raccourci possible :
+   1. Générer le HTML : `python3 scripts/render_email.py editions/<date>.md --out <fichier>`
+   2. **Lire ce fichier** (outil Read, ou `cat`) pour en obtenir le contenu réel.
+   3. **Coller ce contenu intégralement** comme valeur de `htmlBody`. Oui, cela
+      représente 15 à 20 Ko dans l'appel d'outil : c'est normal et attendu.
+
+   **Contrôle avant d'appeler `send_message`** — la valeur de `htmlBody` doit :
+   - commencer par `<table` ;
+   - faire **plus de 5 000 caractères** ;
+   - ne contenir ni `$(`, ni `` ` ``, ni le mot `cat `.
+
+   Si l'un de ces trois points n'est pas vérifié, **n'envoie pas** : reprends à
+   l'étape 2. Un email parti avec un corps de 30 caractères est un échec plus
+   grave qu'un email non parti — le lecteur croit avoir reçu son édition.
+
    Si l'appel échoue sur `Insufficient scope`, l'autorisation d'envoi n'a pas
    encore été accordée : **ce n'est pas une erreur à corriger ni à retenter**,
    passer au canal suivant.
