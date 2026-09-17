@@ -119,6 +119,22 @@ La parade est dans `prompts/daily-brief.md`, étape 5a : lire le fichier, coller
 son contenu réel, et vérifier avant l'envoi que `htmlBody` commence par
 `<table`, dépasse 5 000 caractères et ne contient ni `$(` ni backtick.
 
+## Incidents de livraison — historique
+
+| Date | Symptôme | Cause |
+|------|----------|-------|
+| 13/09 | HTML affiché en texte brut | HTML placé dans `body` au lieu de `htmlBody` |
+| 15/09 | Email de 14 Ko, corps = `$(cat …)` | Substitution shell passée en paramètre d'outil |
+| 16/09 | **Aucun email** | Édition écrite, validée et poussée, jamais envoyée |
+| 17/09 | Email de 4 Ko, texte brut | `htmlBody` purement et simplement omis |
+
+Le point commun des trois derniers : **le contenu était bon, la diffusion a
+échoué en silence**. D'où le contrôle post-envoi ajouté le 17/09 — relire le
+message parti et vérifier que `sizeEstimate` dépasse 15 000 octets.
+
+Repères de taille : 23 000 à 36 000 octets pour une édition correcte, 14 000
+pour un corps corrompu, 4 000 pour un envoi en texte seul.
+
 ## Comportement en cas de problème
 
 | Situation | Comportement attendu |

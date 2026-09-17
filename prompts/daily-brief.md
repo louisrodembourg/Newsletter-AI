@@ -189,14 +189,34 @@ Ce n'est donc pas un filet théorique.
    3. **Coller ce contenu intégralement** comme valeur de `htmlBody`. Oui, cela
       représente 15 à 20 Ko dans l'appel d'outil : c'est normal et attendu.
 
+   **`htmlBody` est OBLIGATOIRE.** Un envoi qui ne fournit que `body` part en
+   texte brut : le lecteur reçoit une newsletter sans mise en forme, sans
+   étiquettes d'acteurs et sans liens cliquables. C'est arrivé le 17/09/2026
+   — 4 Ko reçus au lieu de 23 Ko. Omettre `htmlBody` pour s'épargner un gros
+   collage n'est pas une simplification acceptable, c'est un échec de livraison.
+
    **Contrôle avant d'appeler `send_message`** — la valeur de `htmlBody` doit :
+   - être **présente** (jamais omise, jamais vide) ;
    - commencer par `<table` ;
    - faire **plus de 5 000 caractères** ;
    - ne contenir ni `$(`, ni `` ` ``, ni le mot `cat `.
 
-   Si l'un de ces trois points n'est pas vérifié, **n'envoie pas** : reprends à
-   l'étape 2. Un email parti avec un corps de 30 caractères est un échec plus
+   Si l'un de ces quatre points n'est pas vérifié, **n'envoie pas** : reprends
+   à l'étape 2. Un email parti avec un corps de 30 caractères est un échec plus
    grave qu'un email non parti — le lecteur croit avoir reçu son édition.
+
+   **Contrôle APRÈS l'envoi — ne saute jamais cette étape.** Un `send_message`
+   qui réussit ne prouve pas que le bon contenu est parti. Relis ce que tu
+   viens d'envoyer :
+
+       mcp__Gmail__search_threads avec la requête : subject:"Signal IA" newer_than:1d
+
+   Sur le message que tu viens d'envoyer, vérifie que `sizeEstimate` dépasse
+   **15 000** octets. En dessous, le HTML n'est pas parti : renvoie l'édition
+   en corrigeant, et dis-le explicitement dans ton rapport final.
+
+   Ordres de grandeur constatés : ~23 000 à 36 000 octets pour une édition
+   correcte, 4 000 pour un envoi en texte seul, 14 000 pour un envoi corrompu.
 
    Si l'appel échoue sur `Insufficient scope`, l'autorisation d'envoi n'a pas
    encore été accordée : **ce n'est pas une erreur à corriger ni à retenter**,
