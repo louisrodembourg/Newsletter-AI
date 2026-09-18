@@ -31,6 +31,29 @@ BORDURE = "#e6e6e2"
 OR = "#c9a227"
 FOND_META = "#eef1ee"
 
+# Styles répétés, sortis en classes. Mesuré sur l'édition du 18/09 : les
+# attributs `style` pesaient 31 % du fichier, le même style de lien apparaissant
+# 15 fois et celui des titres d'items 13 fois. Chaque caractère économisé est un
+# caractère de moins à transmettre au moment de l'envoi — d'où quatre incidents
+# de diffusion en une semaine.
+#
+# Les fonds colorés (en-tête sombre, encadrés) restent en inline : ils ne sont
+# pas répétés, et ce sont eux qui portent l'identité visuelle si un client
+# exotique venait à ignorer la feuille de style.
+FEUILLE = (
+    "<style>"
+    ".a{color:#0b63c5;text-decoration:none;font-weight:600}"
+    ".t{margin:0 0 5px;font-size:14.5px;font-weight:650;color:#14161a;line-height:1.4}"
+    ".p{margin:0 0 18px;font-size:14px;line-height:1.65;color:#2b2f36}"
+    ".g{display:inline-block;background:#eef1ee;color:#14161a;font-size:11.5px;"
+    "font-weight:600;padding:3px 9px;border-radius:11px;margin:0 6px 5px 0}"
+    ".i{color:#6b7079}"
+    ".h{margin:0 0 4px;font-size:15px;font-weight:700;color:#14161a}"
+    ".c{padding:24px 32px 0 32px}"
+    ".b li{margin-bottom:7px}"
+    "</style>"
+)
+
 MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet",
         "août", "septembre", "octobre", "novembre", "décembre"]
 JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
@@ -59,12 +82,11 @@ def inline(texte):
         libelle, url = m.group(1), m.group(2)
         libelle = libelle.replace("→", "&rarr;").replace("&amp;rarr;", "&rarr;")
         return (f'<a href="{html.escape(url, quote=True)}" '
-                f'style="color:{LIEN};text-decoration:none;font-weight:600;">{libelle}</a>')
+                f'class="a" style="color:{LIEN};text-decoration:none;">{libelle}</a>')
 
     texte = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", lien, texte)
     texte = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", texte)
-    texte = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)",
-                   rf'<em style="color:{GRIS_PIED};">\1</em>', texte)
+    texte = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r'<em class="i">\1</em>', texte)
     return texte.replace(" · ", " &nbsp;·&nbsp; ")
 
 
@@ -92,15 +114,14 @@ def rendre_brief(blocs):
         for ligne in bloc.splitlines():
             ligne = ligne.strip()
             if ligne.startswith("- "):
-                puces.append(
-                    f'<li style="margin-bottom:7px;">{inline(ligne[2:])}</li>')
+                puces.append(f'<li>{inline(ligne[2:])}</li>')
     if not puces:
         return ""
     return f"""
         <tr>
           <td style="padding:26px 32px 6px 32px;">
-            <p style="margin:0 0 14px 0;font-size:15px;font-weight:700;color:{ENCRE};">&#9889; Le brief</p>
-            <ul style="margin:0;padding:0 0 0 18px;color:{TEXTE};font-size:14.5px;line-height:1.65;">
+            <p class="h" style="margin:0 0 14px 0;">&#9889; Le brief</p>
+            <ul class="b" style="margin:0;padding:0 0 0 18px;color:{TEXTE};font-size:14.5px;line-height:1.65;">
               {''.join(puces)}
             </ul>
           </td>
@@ -114,8 +135,7 @@ def rendre_item(bloc):
     corps = lignes[1].strip() if len(lignes) > 1 else ""
     sortie = ""
     if titre.startswith("**") and titre.endswith("**"):
-        sortie += (f'<p style="margin:0 0 5px 0;font-size:14.5px;font-weight:650;'
-                   f'color:{ENCRE};line-height:1.4;">{inline(titre[2:-2])}</p>')
+        sortie += f'<p class="t">{inline(titre[2:-2])}</p>' 
     else:
         corps = bloc.strip()
 
@@ -126,17 +146,12 @@ def rendre_item(bloc):
         if fin > 0:
             champs = [c.strip() for c in corps[1:fin].split("·") if c.strip()]
             corps = corps[fin + 1:].strip()
-            puces = "".join(
-                f'<span style="display:inline-block;background:{FOND_META};'
-                f'color:{ENCRE};font-size:11.5px;font-weight:600;padding:3px 9px;'
-                f'border-radius:11px;margin:0 6px 5px 0;">{inline(c)}</span>'
-                for c in champs)
+            puces = "".join(f'<span class="g">{inline(c)}</span>' for c in champs)
             meta_ligne = f'<p style="margin:0 0 9px 0;line-height:1.9;">{puces}</p>'
     sortie += meta_ligne
 
     if corps:
-        sortie += (f'<p style="margin:0 0 18px 0;font-size:14px;line-height:1.65;'
-                   f'color:{TEXTE};">{inline(corps)}</p>')
+        sortie += f'<p class="p">{inline(corps)}</p>' 
     return sortie
 
 
@@ -150,8 +165,8 @@ def rendre_section(titre, blocs):
                        else '<div style="height:12px;"></div>')
     return f"""
         <tr>
-          <td style="padding:24px 32px 0 32px;">
-            <p style="margin:0 0 4px 0;font-size:15px;font-weight:700;color:{ENCRE};">{inline(titre)}</p>
+          <td class="c">
+            <p class="h">{inline(titre)}</p>
             {bloc_sous_titre}
             {items}
           </td>
@@ -253,7 +268,7 @@ def rendre(chemin):
     lien_archive = (f"https://github.com/louisrodembourg/Newsletter-AI/blob/"
                     f"claude/daily-ai-newsletter-rwq5m6/editions/{date_iso}.md")
 
-    return f"""<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">{preheader}</div>
+    return f"""{FEUILLE}<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">{preheader}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f2;margin:0;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   <tr>
     <td align="center">

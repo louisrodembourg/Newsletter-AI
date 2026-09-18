@@ -222,6 +222,18 @@ Ce n'est donc pas un filet théorique.
    encore été accordée : **ce n'est pas une erreur à corriger ni à retenter**,
    passer au canal suivant.
 
+   **Rapporte l'erreur BRUTE, jamais ton interprétation.** Le 18/09/2026, une
+   session a conclu « bloqué par Gmail » et basculé en artifact ; vérification
+   faite, Gmail fonctionnait parfaitement et la même édition est partie sans
+   difficulté quelques minutes plus tard. Elle avait pris son propre échec pour
+   un refus du serveur, ce qui a envoyé le diagnostic dans une impasse.
+
+   Donc : cite le message d'erreur exact, mot pour mot, avec le nom de l'outil
+   appelé et la taille de `htmlBody` au moment de l'appel. N'écris jamais
+   « Gmail a bloqué », « le quota est dépassé » ou « le serveur refuse » sans
+   avoir le message qui le dit littéralement. Si tu n'as pas d'erreur à citer,
+   dis que l'envoi a échoué sans message — c'est une information en soi.
+
    **Pour toute AUTRE erreur d'envoi, ne bascule pas tout de suite en artifact.**
    Un envoi groupé peut échouer à cause d'un seul destinataire. Réessaie alors
    **une adresse à la fois**, en commençant par la première de la liste : mieux
