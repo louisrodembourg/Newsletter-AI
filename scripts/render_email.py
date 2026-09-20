@@ -266,7 +266,7 @@ def rendre(chemin):
 
     date_iso = meta.get("date", "")
     lien_archive = (f"https://github.com/louisrodembourg/Newsletter-AI/blob/"
-                    f"claude/daily-ai-newsletter-rwq5m6/editions/{date_iso}.md")
+                    f"master/editions/{date_iso}.md")
 
     return f"""{FEUILLE}<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">{preheader}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f2;margin:0;padding:24px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">

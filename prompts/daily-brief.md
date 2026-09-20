@@ -163,7 +163,7 @@ Ce n'est donc pas un filet théorique.
 ## Étape 5 — Publier
 
 1. **Archiver** l'édition en Markdown dans `editions/AAAA-MM-JJ.md`, commiter
-   sur la branche `claude/daily-ai-newsletter-rwq5m6` et pousser.
+   sur la branche `master` et pousser.
 2. **Générer l'email** en reprenant `templates/email.html` : remplacer les
    marqueurs `{{...}}` par le contenu du jour. Le HTML doit rester
    email-safe — tables, CSS inline, pas de `<style>` externe, pas de
