@@ -5,8 +5,8 @@ with no human in the loop. It has published **every morning since 13 September 2
 each run starts from a cold session, reads its own configuration and memory from this
 repository, and commits the new edition back to [`editions/`](editions).
 
-> Commits authored by **Claude** are the agent's daily runs. The system around it (the
-> prompt, editorial rules, memory, quality gate and email renderer) is my work.
+> The editions are written by the agent (Claude, run on a schedule). The system around
+> it (the prompt, editorial rules, memory, quality gate and email renderer) is my work.
 
 The newsletter itself is in French: 15 to 20 items, about a 7-minute read, covering
 models and research, infrastructure and tooling, companies, products and funding, across

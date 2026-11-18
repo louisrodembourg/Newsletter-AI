@@ -163,7 +163,13 @@ Ce n'est donc pas un filet théorique.
 ## Étape 5 — Publier
 
 1. **Archiver** l'édition en Markdown dans `editions/AAAA-MM-JJ.md`, commiter
-   sur la branche `master` et pousser.
+   sur la branche `master` et pousser. Le commit doit être signé au nom du
+   propriétaire du dépôt, sans ligne `Co-Authored-By` :
+
+   ```bash
+   git -c user.name="Louis Rodembourg" -c user.email="louis68600@gmail.com" \
+       commit -m "Édition du AAAA-MM-JJ — <titre>"
+   ```
 2. **Générer l'email** en reprenant `templates/email.html` : remplacer les
    marqueurs `{{...}}` par le contenu du jour. Le HTML doit rester
    email-safe — tables, CSS inline, pas de `<style>` externe, pas de
