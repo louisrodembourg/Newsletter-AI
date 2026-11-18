@@ -1,7 +1,5 @@
 # Signal IA — an autonomous research-and-writing agent
 
-[![tests](https://github.com/louisrodembourg/Newsletter-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/louisrodembourg/Newsletter-AI/actions/workflows/tests.yml)
-
 An LLM agent that researches, fact-checks, writes and delivers a daily AI newsletter
 with no human in the loop. It has published **every morning since 13 September 2026**:
 each run starts from a cold session, reads its own configuration and memory from this
