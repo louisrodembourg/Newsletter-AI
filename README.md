@@ -1,135 +1,85 @@
-# Signal IA
+# Signal IA — an autonomous research-and-writing agent
 
-Newsletter quotidienne sur l'intelligence artificielle, livrée par email chaque
-matin. Générée automatiquement par Claude Code : collecte, vérification,
-rédaction, envoi et archivage.
+An LLM agent that researches, fact-checks, writes and delivers a daily AI newsletter
+with no human in the loop. It has published **every morning since 13 September 2026**:
+each run starts from a cold session, reads its own configuration and memory from this
+repository, and commits the new edition back to [`editions/`](editions).
 
-**~7 minutes de lecture · 15 à 20 items · français**
+> Commits authored by **Claude** are the agent's daily runs. The system around it (the
+> prompt, editorial rules, memory, quality gate and email renderer) is my work.
 
-## Ce que couvre la newsletter
+The newsletter itself is in French: 15 to 20 items, about a 7-minute read, covering
+models and research, infrastructure and tooling, companies, products and funding, across
+the US, China and Europe.
 
-Priorité à la substance technique et industrielle, dans cet ordre :
+## How a run works
 
-| Rubrique | Poids |
-|----------|-------|
-| ⚡ Le brief — 5 puces, dont au moins 2 techniques | — |
-| 🧠 Tech & recherche — modèles, papers, benchmarks, open-weights | ~34 % |
-| 🏗️ Infra, cloud & outillage — puces et datacenters, mais aussi services cloud, serving, frameworks d'agents, MLOps | ~22 % |
-| 🏢 Les acteurs — fiches d'entreprises : ce qu'elles font, leur stack, leur stade, où elles sont basées | ~12 % |
-| 🚀 Produits & adoption — lancements, agents, déploiements réels | ~16 % |
-| 💰 Éco & investissement — levées, valorisations, IPO, M&A | ~10 % |
-| 👀 Signal faible + 📊 Le chiffre du jour | ~6 % |
-
-La newsletter sert aussi un usage carrière : le lecteur doit en ressortir avec
-des noms d'entreprises, de modèles et d'outils réutilisables en entretien.
-D'où la rubrique **Les acteurs**, la moitié « outillage » de la rubrique infra,
-et une rubrique éco volontairement réduite à la macro-finance la plus utile.
-
-La rubrique Les acteurs dresse une **carte du marché** — quelles entreprises
-existent, ce qu'elles valent techniquement, où elles sont. Elle ne relaie
-jamais d'offres d'emploi ni de pages carrières.
-
-Périmètre géographique : **USA / labos frontier**, **Chine**, **France / Europe**.
-
-Le détail de la ligne éditoriale — y compris ce qu'on refuse de traiter — est
-dans [`config/editorial.md`](config/editorial.md).
-
-## Organisation du dépôt
-
-```
-config/
-  editorial.md      Ligne éditoriale : rubriques, périmètre, règles de rédaction
-  sources.yaml      49 sources de référence, notées par niveau de confiance
-  delivery.md       Destinataire, horaire, comportement en cas de panne
-prompts/
-  daily-brief.md    Le prompt exécuté chaque matin par la routine
-templates/
-  email.html        Gabarit email de référence (tables, CSS inline)
-scripts/
-  registry.py       Mémoire : acteurs déjà traités, sources sur-utilisées, sujets récents
-  check_edition.py  Contrôle qualité bloquant, à passer avant tout envoi
-  render_email.py   Markdown d'édition → HTML email-safe
-editions/
-  AAAA-MM-JJ.md     Archive de chaque édition
+```mermaid
+flowchart LR
+    A[Scheduled trigger<br/>06:29 UTC] --> B[Load context<br/>editorial rules · sources · memory]
+    B --> C[Collect<br/>8+ web searches,<br/>one per angle]
+    C --> D[Verify<br/>primary source,<br/>corroborate figures]
+    D --> E[Write<br/>Markdown edition]
+    E --> F{Quality gate<br/>check_edition.py}
+    F -- blocking rule violated --> E
+    F -- pass --> G[Archive + commit]
+    G --> H[Deliver<br/>email → artifact → push]
 ```
 
-## Fonctionnement quotidien
+## Engineering decisions
 
-1. Une **Routine** planifiée réveille une session Claude Code fraîche.
-2. La session lit `prompts/daily-brief.md` et charge la ligne éditoriale, les
-   sources et les trois dernières éditions (pour éviter les répétitions).
-3. Elle lance au minimum **six recherches web**, une par angle éditorial.
-4. Elle **vérifie** : remontée à la source primaire, corroboration de chaque
-   chiffre, traitement explicite des contradictions. Un fait non corroboré
-   n'entre pas dans l'édition.
-5. Elle rédige l'édition en Markdown, puis **`check_edition.py` la valide** :
-   tant qu'une règle bloquante est violée, l'édition ne part pas.
-6. Elle archive dans `editions/`.
-6. `scripts/render_email.py` produit le HTML, diffusé en cascade : email
-   Gmail, sinon artifact privé, sinon notification push.
+**Rules the model must follow are executable, not just written.** The first three
+editions broke rules stated in the prompt: items without a source, the same outlet cited
+three times, the figure of the day repeated in the brief. `scripts/check_edition.py` now
+encodes the editorial rules and exits with code 1 when a blocking rule is violated, so
+the edition is not sent until it is fixed. It checks:
 
-**Routine active :** `Signal IA — newsletter quotidienne 08h30`
-(`trig_01LRYDtrATKzYzWqXrNptHrj`), cron `29 6 * * *` UTC, 7j/7 — arrive à 08h29 heure de Paris.
+- that every section is present;
+- that every item has a source link;
+- that no URL is repeated;
+- that no outlet supplies too many items;
+- that the brief contains at least two technical points;
+- that the figure of the day has not been used before;
+- how close the topics are to those of the past seven days.
 
-**État de l'email :** en attente de deux autorisations — voir
-[`config/delivery.md`](config/delivery.md). En attendant, l'édition est livrée
-par artifact privé et notification push, et toujours archivée dans le dépôt.
+**Memory is derived, never maintained by hand.** `scripts/registry.py` rebuilds the
+agent's memory from the archived editions on every run: which companies have already
+had a profile, which source domains are over-used, which topics are recent. Because it is
+recomputed from what was actually published, it cannot drift out of sync. It prevents
+repeats like the one in the first week, when the same product launch was covered twice
+in three days.
 
-## Contrainte d'environnement importante
+**Sources are a trust filter.** 57 domains in three trust tiers (primary source,
+reference press, community signal) in [`config/sources.yaml`](config/sources.yaml) are
+passed to the searches as `allowed_domains`. Any figure has to be traced back to a
+primary source and corroborated before it is published.
 
-L'egress réseau de cet environnement est **fermé**. `curl`, les flux RSS et
-`WebFetch` échouent tous (403 / `EGRESS_BLOCKED`). **`WebSearch` est le seul
-canal de collecte disponible** — il s'exécute côté serveur Anthropic et n'est
-pas soumis au proxy.
+**Delivery degrades gracefully.** The edition goes out by email if possible, otherwise
+as a private page plus a push notification. It is always archived in the repository,
+even when every delivery channel fails.
 
-Les 49 sources de `config/sources.yaml` servent donc de **filtre de confiance**
-(`allowed_domains` des recherches) et de référence éditoriale, et non de flux
-directement aspirés.
+**Built around the environment's constraints.** Outbound network access is closed in
+the agent's environment (no RSS, no direct page fetches), so collection goes entirely
+through server-side web search. The source catalogue and an egress allowlist are ready
+for a switch to RSS collection if access is opened later.
 
-> Si l'egress est ouvert plus tard sur les domaines de news, la collecte peut
-> passer en mode RSS — plus exhaustive et plus fidèle aux sources. C'est une
-> évolution, **pas un prérequis** : la newsletter fonctionne sans.
->
-> Pour l'ouvrir : claude.ai/code → environnement « Newsletter IA » → niveau
-> d'accès réseau → **Custom**, en y collant
-> [`config/egress-allowlist.txt`](config/egress-allowlist.txt) (53 domaines,
-> déjà prêt).
+## Repository
 
-Trois domaines (`reuters.com`, `lesechos.fr`, `zdnet.com`) refusent par
-ailleurs le crawler et sont marqués `crawler_blocked: true` : ne jamais les
-passer en `allowed_domains`, la recherche échouerait.
-
-## Les trois outils
+```
+prompts/daily-brief.md    the agent's instructions for each run
+config/editorial.md       editorial line: sections, weights, scope, writing rules
+config/sources.yaml       57 sources with trust tiers
+config/delivery.md        recipient, schedule, failure behaviour
+scripts/check_edition.py  blocking quality gate
+scripts/registry.py       memory derived from past editions
+scripts/render_email.py   Markdown edition → email-safe HTML
+templates/email.html      reference email template
+editions/                 one Markdown file per day (the agent's output)
+docs/operations.md        operating notes (in French)
+```
 
 ```bash
-# Mémoire : qui a déjà eu sa fiche, quelles sources sont épuisées
-python3 scripts/registry.py
-
-# Contrôle qualité — sort en code 1 si une règle bloquante est violée
-python3 scripts/check_edition.py editions/2026-09-15.md
-
-# Aperçu du rendu email
-python3 scripts/render_email.py editions/2026-09-15.md --out /tmp/apercu.html
+python3 scripts/registry.py                               # what the agent remembers
+python3 scripts/check_edition.py editions/2026-11-18.md   # run the quality gate
+python3 scripts/render_email.py editions/2026-11-18.md --out /tmp/preview.html
 ```
-
-`check_edition.py` encode les règles de `config/editorial.md` : rubriques
-présentes, chaque item sourcé, aucune URL répétée, deux items maximum par
-domaine, deux puces techniques minimum dans le brief, chiffre du jour non
-déjà servi, proximité avec les sujets des sept derniers jours.
-
-Appliqué rétroactivement, il rejetait les trois premières éditions — items
-sans source, même média cité trois fois, chiffre du jour déjà présent dans le
-brief. Les règles écrites ne suffisaient pas : il fallait les rendre
-exécutables.
-
-## Modifier la newsletter
-
-| Pour changer… | Éditer… |
-|---------------|---------|
-| les rubriques, leur poids, le ton | `config/editorial.md` |
-| les sources suivies | `config/sources.yaml` |
-| le destinataire ou l'heure d'envoi | `config/delivery.md` |
-| la méthode de collecte ou de vérification | `prompts/daily-brief.md` |
-| l'apparence de l'email | `scripts/render_email.py` |
-
-Aucun de ces changements ne demande de toucher à la Routine planifiée.
