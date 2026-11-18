@@ -1,5 +1,7 @@
 # Signal IA — an autonomous research-and-writing agent
 
+[![tests](https://github.com/louisrodembourg/Newsletter-AI/actions/workflows/tests.yml/badge.svg)](https://github.com/louisrodembourg/Newsletter-AI/actions/workflows/tests.yml)
+
 An LLM agent that researches, fact-checks, writes and delivers a daily AI newsletter
 with no human in the loop. It has published **every morning since 13 September 2026**:
 each run starts from a cold session, reads its own configuration and memory from this
@@ -11,6 +13,18 @@ repository, and commits the new edition back to [`editions/`](editions).
 The newsletter itself is in French: 15 to 20 items, about a 7-minute read, covering
 models and research, infrastructure and tooling, companies, products and funding, across
 the US, China and Europe.
+
+## In production
+
+| | |
+|---|---|
+| Editions published | **67** in a row, one per day since 13 September 2026 |
+| Quality gate | **64 / 64** editions published since it was introduced pass it; the 3 written before it fail it |
+| Company profiles | **113** distinct companies profiled, tracked by the derived memory |
+| Source diversity | **233** distinct domains cited |
+
+These figures are recomputed from [`editions/`](editions) by `scripts/registry.py` and
+the test suite, which runs the gate on every archived edition.
 
 ## How a run works
 
@@ -75,10 +89,12 @@ scripts/registry.py       memory derived from past editions
 scripts/render_email.py   Markdown edition → email-safe HTML
 templates/email.html      reference email template
 editions/                 one Markdown file per day (the agent's output)
+tests/                    regression tests for the gate and the memory
 docs/operations.md        operating notes (in French)
 ```
 
 ```bash
+python -m pytest -q tests                                 # gate regression tests on every edition
 python3 scripts/registry.py                               # what the agent remembers
 python3 scripts/check_edition.py editions/2026-11-18.md   # run the quality gate
 python3 scripts/render_email.py editions/2026-11-18.md --out /tmp/preview.html
